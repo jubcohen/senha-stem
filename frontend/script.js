@@ -43,9 +43,24 @@ function validarDataNascimento() {
     }
 }
 
+function validarNome() {
+    const nome = document.getElementById("usuario").value;
+    const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/; // Permite apenas letras e espaços
+    const mensagemErro = document.getElementById("mensagem");
+
+    if (!regex.test(nome) || nome.trim().length === 0) {
+        mensagemErro.textContent = "Nome inválido. Use apenas letras e espaços.";
+        mensagemErro.style.color = "red";
+        return false;
+    } else {
+        mensagemErro.textContent = "";
+        return true;
+    }
+
+}
+
 function validarSenha() {
     const senha = document.getElementById("senha").value;
-    const botaoEntrar = document.getElementById("botaoEntrar");
     const cpf = document.getElementById("cpf").value.replace(/\D/g, "");
     const dataNascimento = document.getElementById("dataNascimento").value.replace(/-/g, "");
 
@@ -59,39 +74,61 @@ function validarSenha() {
         espacos: !/\s/.test(senha),
         repeticoes: !/(.)\1{2,}/.test(senha),  
         sequencias: !/(123|234|345|456|567|678|789|890|abc|bcd|cde|def|efg|fgh|ghi|hij|ijk|jkl|klm|lmn|mno|nop|opq|pqr|qrs|rst|stu|tuv|uvw|vwx|wxy|xyz)/i.test(senha),
-        cpfNaSenha: cpf ? !senha.includes(cpf) : true,
-        dataNaSenha: dataNascimento ? !senha.includes(dataNascimento) : true
+        cpfNaSenha: cpf.length >= 5 ? !senha.includes(cpf) : true,
+        dataNaSenha: dataNascimento.length >= 4 ? !senha.includes(dataNascimento) : true
     };
 
     let senhaValida = true;
     Object.keys(checklist).forEach(id => {
         const valido = checklist[id];
-        document.getElementById(id).innerHTML = (valido ? "✅" : "❌") + " " + document.getElementById(id).textContent.slice(2);
-        document.getElementById(id).style.color = valido ? "green" : "red";
-
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.innerHTML = (valido ? "✅" : "❌") + " " + elemento.textContent.slice(2);
+            elemento.style.color = valido ? "green" : "red";
+        }
         if (!valido) senhaValida = false;
     });
-
-    botaoEntrar.disabled = !(senhaValida && validarCPF() && validarDataNascimento());
+    return senhaValida;
 }
 
-async function login() {
-    const usuario = document.getElementById("usuario").value;
+async function validarSenhaServidor() {
     const senha = document.getElementById("senha").value;
-    const cpf = document.getElementById("cpf").value;
+    const cpf = document.getElementById("cpf").value.replace(/\D/g, "");
     const dataNascimento = document.getElementById("dataNascimento").value;
 
-    const resposta = await fetch("http://127.0.0.1:5000/login", {
+    const response = await fetch("http://127.0.0.1:5000/validar-senha", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ usuario, cpf, dataNascimento, senha })
+        body: JSON.stringify({ senha, cpf, data_nasc: dataNascimento })
     });
 
-    const dados = await resposta.json();
-
-    if (resposta.status === 200) {
-        window.location.href = "sucesso.html";  
+    const data = await response.json();
+    
+    if (response.ok) {
+        alert("Senha válida!");
     } else {
-        document.getElementById("mensagem").textContent = dados.erro;
+        alert("Erro: " + data.erro);
     }
 }
+
+
+async function login() {
+    //const usuario = document.getElementById("usuario").value;
+    //const senha = document.getElementById("senha").value;
+    //const cpf = document.getElementById("cpf").value;
+    //const dataNascimento = document.getElementById("dataNascimento").value;
+
+    const usuario = validarNome();
+    const senha = validarSenha();
+    const cpf = validarCPF();
+    const dataNascimento = validarDataNascimento();
+
+    if (usuario && senha && cpf && dataNascimento){
+        location.href = "sucesso.html";
+    } else {
+        document.getElementById("mensagem").textContent = "Preeencha todos os dados"
+    }
+}
+
+
+

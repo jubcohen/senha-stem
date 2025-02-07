@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 def validar_cpf(cpf):
-    cpf = re.sub(r'\D', '', cpf)  # Remove caracteres não numéricos
+    cpf = re.sub(r'\D', '', cpf)  
     if len(cpf) != 11 or cpf == cpf[0] * 11:
         return False
 
@@ -62,13 +62,28 @@ def login():
         return jsonify({"erro": erro_senha}), 400
 
     # Simulando um usuário válido no banco de dados
-    usuario_correto = "usuario123"
-    senha_correta = "Senha@123"
+    #usuario_correto = "usuario123"
+    #senha_correta = "Senha@123"
 
-    if usuario == usuario_correto and senha == senha_correta:
-        return jsonify({"mensagem": "Login bem-sucedido"}), 200
-    else:
-        return jsonify({"erro": "Usuário ou senha incorretos"}), 401
+    #if usuario == usuario_correto and senha == senha_correta:
+       # return jsonify({"mensagem": "Login bem-sucedido"}), 200
+    #else:
+        #return jsonify({"erro": "Usuário ou senha incorretos"}), 401
 
 if __name__ == "__main__":
+    app.run(debug=True)
+@app.route('/validar-senha', methods=['POST'])
+def verificar_senha():
+    data = request.json  
+    senha = data.get("senha")
+    cpf = data.get("cpf")
+    data_nasc = data.get("data_nasc")
+
+    erro = validar_senha(senha, cpf, data_nasc)
+
+    if erro:
+        return jsonify({"valida": False, "erro": erro}), 400
+    return jsonify({"valida": True, "mensagem": "Senha válida!"}), 200
+
+if __name__ == '__main__':
     app.run(debug=True)

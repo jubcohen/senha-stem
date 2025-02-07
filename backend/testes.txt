@@ -1,0 +1,73 @@
+Exemplos de Testes Baseados nas Condições de Senha
+
+1. Teste de Senha Válida:
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha@12
+
+2. Teste de Senha Inválida (Menos de 8 Caracteres):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Sen@1
+
+3. Teste de Senha Inválida (Falta Letra Maiúscula):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: senha@12
+
+4. Teste de Senha Inválida (Falta Letra Minúscula):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: SENHA@12
+
+5. Teste de Senha Inválida (Falta Número):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha@ab
+
+6. Teste de Senha Inválida (Falta Caractere Especial):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha1267
+
+7. Teste de Senha Inválida (Mais de 20 Caracteres):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha@1732684292737438284293
+
+8. Teste de Senha Inválida (Contém Espaços):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha @12
+
+9. Teste de Senha Inválida (Repetição Excessiva de Caracteres):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha@1111
+
+10. Teste de Senha Inválida (Sequência Numérica ou Alfabética):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: Senha@abcd
+
+11. Teste de Senha Inválida (Contém CPF):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: 123.456.789-09Senha@12
+
+12. Teste de Senha Inválida (Contém Data de Nascimento):
+Dados:
+CPF: 123.456.789-09
+Data de Nascimento: 2000-05-15
+Senha: 2000-05-15Senha@

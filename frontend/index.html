@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Login</h2>
-        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="text" id="usuario" placeholder="Usuário" oninput="validarNome()">
         <input type="text" id="cpf" placeholder="CPF (apenas números)" oninput="validarCPF()">
         <span id="cpfErro" class="erro"></span>
         <input type="date" id="dataNascimento" placeholder="Data de Nascimento" oninput="validarDataNascimento()">
@@ -28,7 +28,7 @@
             <li id="cpfNaSenha">❌ Senha não pode conter CPF</li>
             <li id="dataNaSenha">❌ Senha não pode conter Data de Nascimento</li>
         </ul>
-        <button id="botaoEntrar" onclick="login()" disabled>Entrar</button>
+        <button id="botaoEntrar" onclick="login()" >Entrar</button>
         <p id="mensagem"></p>
     </div>
     <script src="script.js"></script>
